@@ -26,6 +26,7 @@
   - Svelte(JavaScript)
 - PostgreSQL
 - Docker
+- [bolt.new](https://bolt.new/)
 
 ---
 
