@@ -26,7 +26,7 @@
   - Svelte(JavaScript)
 - PostgreSQL
 - Docker
-- [bolt.new](https://bolt.new/)
+- [Cursor](https://cursor.com/ja)
 
 ---
 
