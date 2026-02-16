@@ -5,6 +5,7 @@
 そのため、登録したニュースから最新情報の収集とSNS投稿を行うWebアプリ、「あのニュースは今どうなった！？（News Echo）」のプロジェクトです。
 
 ## 画面構成
+- ログイン
 - ダッシュボード
   - ニュース一覧
   - ニュース登録・更新（ダイアログ）
@@ -23,7 +24,7 @@
 ## 開発環境
 - vscode
   - Laravel(PHP)
-  - Svelte(JavaScript)
+  - Nuxt(Vue.js)
 - PostgreSQL
 - Docker
 - [Cursor](https://cursor.com/ja)
