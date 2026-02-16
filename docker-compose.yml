@@ -1,0 +1,88 @@
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+      - ui
+    networks:
+      - news-echo
+
+  app:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    working_dir: /var/www
+    volumes:
+      - ./backend:/var/www
+    expose:
+      - "9000"
+      - "2222"
+    ports:
+      - "2222:2222"
+    env_file:
+      - .env
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_DATABASE=${DB_DATABASE:-news_echo}
+      - DB_USERNAME=${DB_USERNAME:-news_echo}
+      - DB_PASSWORD=${DB_PASSWORD:-secret}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - news-echo
+
+  ui:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    expose:
+      - "3000"
+      - "2223"
+    ports:
+      - "2223:2223"
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - NUXT_PUBLIC_API_BASE=/api
+    depends_on:
+      - app
+    networks:
+      - news-echo
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-news_echo}
+      POSTGRES_USER: ${DB_USERNAME:-news_echo}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-news_echo} -d ${DB_DATABASE:-news_echo}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - news-echo
+
+networks:
+  news-echo:
+    driver: bridge
+
+volumes:
+  postgres_data:

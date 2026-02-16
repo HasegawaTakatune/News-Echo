@@ -1,0 +1,15 @@
+.env
+.env.local
+*.log
+node_modules/
+vendor/
+dist/
+build/
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+docker/authorized_keys
+*.pem
+id_rsa*
