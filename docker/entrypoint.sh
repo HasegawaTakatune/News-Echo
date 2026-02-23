@@ -9,9 +9,9 @@ if [ -n "$SSH_PUBLIC_KEY" ]; then
     chmod 600 ~/.ssh/authorized_keys
 fi
 
-# Start SSHD in background
-if command -v sshd >/dev/null 2>&1; then
-    sshd
+# Start SSHD in background (ignore failure soアプリは続行)
+if command -v /usr/sbin/sshd >/dev/null 2>&1; then
+    /usr/sbin/sshd || echo "sshd failed to start, continuing without SSH"
 fi
 
 # Execute the main command

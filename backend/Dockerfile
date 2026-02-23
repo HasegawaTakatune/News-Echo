@@ -7,6 +7,9 @@ RUN apk add --no-cache \
     libpq-dev \
     $PHPIZE_DEPS
 
+# Generate SSH host keys
+RUN ssh-keygen -A
+
 # Configure SSH
 RUN mkdir -p /run/sshd \
     && sed -i 's/#Port 22/Port 2222/' /etc/ssh/sshd_config \
@@ -23,7 +26,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www
 
 COPY backend/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN sed -i 's/\r$//' /entrypoint.sh && chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["php-fpm"]
