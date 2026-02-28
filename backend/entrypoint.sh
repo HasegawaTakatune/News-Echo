@@ -17,5 +17,8 @@ fi
 # Run migrations
 php artisan migrate --force 2>/dev/null || true
 
+# Seed database (idempotent: updateOrCreate)
+php artisan db:seed --force 2>/dev/null || true
+
 # Execute the main command
 exec "$@"
