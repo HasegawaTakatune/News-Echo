@@ -1,80 +1,80 @@
 <script setup lang="ts">
-definePageMeta({ middleware: 'auth' })
+definePageMeta({ middleware: "auth" });
 
-const api = useApi()
-const currentPassword = ref('')
-const newPassword = ref('')
-const newPasswordConfirm = ref('')
-const postAccount = ref('')
-const researchPrompt = ref('')
-const user = ref<{ is_admin?: boolean } | null>(null)
-const message = ref('')
-const error = ref('')
+const api = useApi();
+const currentPassword = ref("");
+const newPassword = ref("");
+const newPasswordConfirm = ref("");
+const postAccount = ref("");
+const researchPrompt = ref("");
+const user = ref<{ is_admin?: boolean } | null>(null);
+const message = ref("");
+const error = ref("");
 
 const fetchSettings = async () => {
   try {
-    const res = await api.get<{ user?: { is_admin?: boolean }; post_account?: string; research_prompt?: string }>('/settings')
-    user.value = res.user ?? null
-    if (res.post_account) postAccount.value = res.post_account
-    if (res.research_prompt) researchPrompt.value = res.research_prompt
+    const res = await api.get<{ user?: { is_admin?: boolean }; post_account?: string; research_prompt?: string }>("/settings");
+    user.value = res.user ?? null;
+    if (res.post_account) postAccount.value = res.post_account;
+    if (res.research_prompt) researchPrompt.value = res.research_prompt;
   } catch {}
-}
+};
 
 const updatePassword = async () => {
-  error.value = ''
-  message.value = ''
+  error.value = "";
+  message.value = "";
   if (newPassword.value !== newPasswordConfirm.value) {
-    error.value = 'パスワードが一致しません。'
-    return
+    error.value = "パスワードが一致しません。";
+    return;
   }
   try {
-    await api.put('/settings/password', {
+    await api.put("/settings/password", {
       current_password: currentPassword.value,
       password: newPassword.value,
       password_confirmation: newPasswordConfirm.value,
-    })
-    message.value = 'パスワードを更新しました。'
-    currentPassword.value = ''
-    newPassword.value = ''
-    newPasswordConfirm.value = ''
+    });
+    message.value = "パスワードを更新しました。";
+    currentPassword.value = "";
+    newPassword.value = "";
+    newPasswordConfirm.value = "";
   } catch (e: unknown) {
-    const err = e as { data?: { message?: string } }
-    error.value = err.data?.message || '更新に失敗しました。'
+    const err = e as { data?: { message?: string } };
+    error.value = err.data?.message || "更新に失敗しました。";
   }
-}
+};
 
 const updatePostAccount = async () => {
-  error.value = ''
-  message.value = ''
+  error.value = "";
+  message.value = "";
   try {
-    await api.put('/settings/post-account', { post_account: postAccount.value })
-    message.value = '投稿アカウントを変更しました。'
+    await api.put("/settings/post-account", { post_account: postAccount.value });
+    message.value = "投稿アカウントを変更しました。";
   } catch (e: unknown) {
-    const err = e as { data?: { message?: string } }
-    error.value = err.data?.message || '変更に失敗しました。'
+    const err = e as { data?: { message?: string } };
+    error.value = err.data?.message || "変更に失敗しました。";
   }
-}
+};
 
 const updateResearchPrompt = async () => {
-  error.value = ''
-  message.value = ''
+  error.value = "";
+  message.value = "";
   try {
-    await api.put('/settings/research-prompt', { research_prompt: researchPrompt.value })
-    message.value = 'リサーチプロンプトを変更しました。'
+    await api.put("/settings/research-prompt", { research_prompt: researchPrompt.value });
+    message.value = "リサーチプロンプトを変更しました。";
   } catch (e: unknown) {
-    const err = e as { data?: { message?: string } }
-    error.value = err.data?.message || '変更に失敗しました。'
+    const err = e as { data?: { message?: string } };
+    error.value = err.data?.message || "変更に失敗しました。";
   }
-}
+};
 
 onMounted(async () => {
-  const token = useCookie('auth_token')
+  const token = useCookie("auth_token");
   if (!token.value) {
-    navigateTo('/login')
-    return
+    navigateTo("/login");
+    return;
   }
-  await fetchSettings()
-})
+  await fetchSettings();
+});
 </script>
 
 <template>
@@ -118,7 +118,11 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.settings { max-width: 600px; margin: 0 auto; padding: 2rem; }
+.settings {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
 .header {
   display: flex;
   justify-content: space-between;
@@ -127,36 +131,68 @@ onMounted(async () => {
 }
 .btn {
   padding: 0.5rem 1rem;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
   border: 1px solid #444;
-  border-radius: 0.5rem;
+  border-radius: 2rem;
   text-decoration: none;
   cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+.btn:hover {
+  background: rgba(255, 255, 255, 0.15);
 }
 .section {
-  background: rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.03);
   padding: 1.5rem;
   border-radius: 0.75rem;
   margin-bottom: 1.5rem;
 }
-.section h2 { font-size: 1.1rem; margin-bottom: 1rem; }
-.form { display: flex; flex-direction: column; gap: 0.75rem; }
-.form input, .form textarea {
+.section h2 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.form input,
+.form textarea {
   padding: 0.75rem 1rem;
-  border: 1px solid #333;
-  border-radius: 0.5rem;
-  background: rgba(0,0,0,0.3);
+  border: 1px solid #e94560;
+  border-radius: 2rem;
+  background: rgba(233, 69, 96, 0.1);
   color: #fff;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+.form input:focus,
+.form textarea:focus {
+  outline: none;
+  background-color: rgba(233, 69, 96, 0.2);
+  box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
 }
 .form button {
   padding: 0.75rem 1rem;
-  background: #e94560;
+  background: #4caf50;
   color: #fff;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 2rem;
   cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
 }
-.message { color: #4caf50; margin-bottom: 1rem; }
-.error { color: #ff6b6b; margin-bottom: 1rem; }
+.form button:hover {
+  background: #45a049;
+}
+.message {
+  color: #4caf50;
+  margin-bottom: 1rem;
+}
+.error {
+  color: #ff6b6b;
+  margin-bottom: 1rem;
+}
 </style>

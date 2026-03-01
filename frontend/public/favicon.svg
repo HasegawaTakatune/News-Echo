@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <style>
+      .echo-bg { fill: #1a1a2e; }
+      .echo-accent { fill: #e94560; }
+      .echo-text { fill: #fff; font-family: Arial, sans-serif; font-weight: bold; }
+    </style>
+  </defs>
+  <!-- Background -->
+  <rect class="echo-bg" width="200" height="200" rx="40"/>
+  <!-- Outer circle ring -->
+  <circle cx="100" cy="100" r="85" fill="none" stroke="#e94560" stroke-width="3" opacity="0.5"/>
+  <circle cx="100" cy="100" r="70" fill="none" stroke="#e94560" stroke-width="2" opacity="0.3"/>
+  <!-- Center dot -->
+  <circle cx="100" cy="100" r="12" class="echo-accent"/>
+  <!-- Mound waves -->
+  <path d="M 50 100 Q 70 80, 100 90 T 150 100" fill="none" stroke="#e94560" stroke-width="3" opacity="0.8"/>
+  <path d="M 40 100 Q 70 60, 100 75 T 160 100" fill="none" stroke="#e94560" stroke-width="2" opacity="0.6"/>
+</svg>
