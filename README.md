@@ -30,6 +30,7 @@
   - Laravel(PHP)
   - Nuxt(Vue/TypeScript)
 - PostgreSQL
+- pgAdmin 4
 - Docker
 - [Cursor](https://cursor.com/ja)
 
