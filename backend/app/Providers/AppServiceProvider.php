@@ -11,7 +11,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // bind our AI and social abstractions so they can be injected
+        $this->app->bind(\App\Services\AIService::class, \App\Services\GeminiAIService::class);
+        $this->app->singleton(\App\Services\SocialService::class, function ($app) {
+            return new \App\Services\SocialService();
+        });
     }
 
     /**
