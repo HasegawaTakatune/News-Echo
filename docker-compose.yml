@@ -80,13 +80,17 @@ services:
     networks:
       - news-echo
 
-  adminer:
-    image: adminer
+  pgadmin:
+    image: dpage/pgadmin4
     restart: always
     ports:
-      - "8080:8080"
+      - "8080:80"
     environment:
-      - ADMINER_DEFAULT_SERVER=db
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./docker/pgadmin/servers.json:/pgadmin4/servers.json
     depends_on:
       - db
     networks:
@@ -98,3 +102,4 @@ networks:
 
 volumes:
   postgres_data:
+  pgadmin_data:

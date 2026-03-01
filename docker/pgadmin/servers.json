@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "News Echo DB",
+      "Group": "Servers",
+      "Host": "db",
+      "Port": 5432,
+      "MaintenanceDB": "news_echo",
+      "Username": "news_echo",
+      "Password": "secret",
+      "SSLMode": "prefer"
+    }
+  }
+}
