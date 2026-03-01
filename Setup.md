@@ -97,6 +97,32 @@ docker-compose exec ui npm install
 docker-compose exec ui npm run dev
 ```
 
+#### 5.3 ホットリロード（開発環境）
+
+フロントエンドはホットモジュール交換（HMR）に対応しており、ファイル変更時に自動でブラウザが更新されます。
+
+**ホットリロードの確認**：
+
+1. ブラウザで `http://localhost:3000` を開く
+2. `frontend/pages/login.vue` など任意のファイルを編集・保存
+3. ブラウザが自動更新され、変更が反映される
+
+**HMR設定詳細**（`nuxt.config.ts`）：
+
+```typescript
+vite: {
+  server: {
+    hmr: {
+      host: 'localhost',
+      port: 3000,
+      protocol: 'ws',
+    },
+  },
+}
+```
+
+Docker環境でのホットリロード機能が正常に動作するための設定です。
+
 ### 6. ニュース投稿バッチの設定
 
 ニュースの定期投稿機能を使う場合、以下のセットアップが必要です：
@@ -134,7 +160,75 @@ $schedule->command('news:post')->dailyAt('00:00');
 
 ---
 
-## アクセス方法
+## 7. マイグレーション（詳細）
+
+Laravel マイグレーションを使用してデータベーススキーマを管理しています。
+
+### 7.1 マイグレーション実行
+
+すべての保留中のマイグレーションを実行：
+
+```bash
+docker-compose exec app php artisan migrate
+```
+
+### 7.2 マイグレーション状態確認
+
+実行済み・保留中のマイグレーションを確認：
+
+```bash
+docker-compose exec app php artisan migrate:status
+```
+
+以下のマイグレーションが `Ran` 状態であることを確認してください：
+
+- `0001_01_01_000000_create_users_table`
+- `0001_01_01_000001_create_cache_table`
+- `0001_01_01_000002_create_jobs_table`
+- `2025_02_16_000001_add_is_admin_to_users_table`
+- `2025_02_16_000002_create_email_verification_tokens_table`
+- `2025_02_16_000003_create_news_table`
+- `2025_02_16_000004_create_settings_table`
+- `2025_02_16_000005_create_personal_access_tokens_table`
+- `2026_03_01_000001_add_last_posted_at_to_news_table` (ニュース投稿バッチ用)
+
+### 7.3 マイグレーションのロールバック
+
+最後に実行したバッチをロールバック：
+
+```bash
+docker-compose exec app php artisan migrate:rollback
+```
+
+特定数のバッチをロールバック：
+
+```bash
+docker-compose exec app php artisan migrate:rollback --step=3
+```
+
+すべてのマイグレーションをロールバック：
+
+```bash
+docker-compose exec app php artisan migrate:reset
+```
+
+### 7.4 マイグレーション再実行
+
+テスト時にすべてをロールバックして再実行：
+
+```bash
+docker-compose exec app php artisan migrate:refresh
+```
+
+ロールバック + マイグレーション + シーダー実行：
+
+```bash
+docker-compose exec app php artisan migrate:refresh --seed
+```
+
+---
+
+## 8. アクセス方法
 
 ### Web アプリケーション
 
@@ -150,7 +244,9 @@ $schedule->command('news:post')->dailyAt('00:00');
   - ユーザー名: `news_echo`
   - パスワード: `secret`
 
-### SSH 接続（開発環境）
+---
+
+## 9. SSH 接続（開発環境）
 
 #### バックエンド（PHP-FPM）コンテナへ接続
 
@@ -166,7 +262,7 @@ ssh -p 2223 root@localhost
 
 ---
 
-## トラブルシューティング
+## 10. トラブルシューティング
 
 ### ポートが既に使用されている
 
@@ -210,13 +306,35 @@ docker-compose logs -f db     # データベース
 
 ---
 
-## 開発時の便利コマンド
+## 11. 開発時の便利コマンド
 
 ### ホットリロード（Nuxt）
 
-フロントエンドが自動で再起動されます（コンテナ起動時）。
+フロントエンドはホットモジュール交換（HMR）に対応しており、ファイル変更時に自動でブラウザが更新されます。
 
-### Laravel Tinker（インタラクティブシェル）
+✓ 作成したコンポーネント、ページ、スタイルを編集・保存するだけで、変更箇所がリアルタイムで反映されます
+✓ 開発中を続ける場合はサーバー起動時の一度のチェック同程度で算笠を仁▲ください
+
+### Laravel マイグレーション管理
+
+開発中のデータベーススキーマ管理用コマンド：
+
+```bash
+# 保留中のすべてのマイグレーションを実行
+docker-compose exec app php artisan migrate
+
+# マイグレーション紦史を確認
+docker-compose exec app php artisan migrate:status
+
+# 最後のバッチをロールバック
+docker-compose exec app php artisan migrate:rollback
+
+# 3バッチロールバック
+docker-compose exec app php artisan migrate:rollback --step=3
+
+# テスト時: 完全リセットして再実行
+docker-compose exec app php artisan migrate:refresh
+```
 
 ```bash
 docker-compose exec app php artisan tinker
@@ -230,14 +348,34 @@ docker-compose exec db psql -U news_echo -d news_echo
 
 ### コンテナへの直接アクセス
 
+開発物をデバッグしたい時、コンテナを直接操作できます：
+
 ```bash
-docker-compose exec app bash   # バックエンド
-docker-compose exec ui bash    # フロントエンド
+# バックエンド (PHP) コンテナ
+docker-compose exec app bash
+
+# フロントエンド (Node.js) コンテナ
+docker-compose exec ui bash
+```
+
+### コンテナログの確認
+
+開発中に問題が発生した時：
+
+```bash
+# リアルタイムでログを追跡
+docker-compose logs -f app    # バックエンド
+docker-compose logs -f ui     # フロントエンド
+docker-compose logs -f db     # データベース
+docker-compose logs -f web    # Nginx
+
+# 最近 50 行を表示
+docker-compose logs --tail=50 app
 ```
 
 ---
 
-## 本番環境へのデプロイ
+## 12. 本番環境へのデプロイ
 
 本番環境では以下の点を必ず変更してください：
 
@@ -265,7 +403,7 @@ docker-compose exec ui bash    # フロントエンド
 
 ---
 
-## その他
+## 13. その他
 
 - **プロジェクト README**: [README.md](README.md)
 - **プロジェクト構成**: [プロジェクト構成.txt](プロジェクト構成.txt)
