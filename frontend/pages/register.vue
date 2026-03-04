@@ -79,34 +79,25 @@ h1 {
 }
 .auth-form input {
   padding: 0.75rem 1rem;
-  border: 1px solid #e94560;
-  border-radius: 2rem;
-  background: rgba(233, 69, 96, 0.1);
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
   color: #fff;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-.auth-form input:focus {
-  outline: none;
-  background-color: rgba(233, 69, 96, 0.2);
-  box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
 }
 .auth-form input[readonly] {
   opacity: 0.8;
 }
 .auth-form button {
   padding: 0.75rem 1rem;
-  background: #4caf50;
+  background: #e94560;
   color: #fff;
   border: none;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   font-weight: 600;
-  font-family: inherit;
-  transition: all 0.2s ease;
 }
 .auth-form button:hover {
-  background: #45a049;
+  background: #ff6b6b;
 }
 .error {
   color: #ff6b6b;

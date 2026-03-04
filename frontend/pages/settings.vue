@@ -134,14 +134,9 @@ onMounted(async () => {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
   border: 1px solid #444;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
   text-decoration: none;
   cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-.btn:hover {
-  background: rgba(255, 255, 255, 0.15);
 }
 .section {
   background: rgba(255, 255, 255, 0.03);
@@ -161,31 +156,18 @@ onMounted(async () => {
 .form input,
 .form textarea {
   padding: 0.75rem 1rem;
-  border: 1px solid #e94560;
-  border-radius: 2rem;
-  background: rgba(233, 69, 96, 0.1);
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
   color: #fff;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-.form input:focus,
-.form textarea:focus {
-  outline: none;
-  background-color: rgba(233, 69, 96, 0.2);
-  box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
 }
 .form button {
   padding: 0.75rem 1rem;
-  background: #4caf50;
+  background: #e94560;
   color: #fff;
   border: none;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
   cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-.form button:hover {
-  background: #45a049;
 }
 .message {
   color: #4caf50;

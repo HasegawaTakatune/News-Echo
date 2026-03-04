@@ -1,68 +1,59 @@
 <script setup lang="ts">
 export interface NewsItem {
-  id?: number;
-  title: string;
-  post_interval: string;
-  user_id?: number;
-  research_prompt?: string;
+  id?: number
+  title: string
+  post_interval: string
+  user_id?: number
+  research_prompt?: string
 }
 
 const props = defineProps<{
-  modelValue: boolean;
-  news?: NewsItem | null;
-  userId?: number;
-}>();
+  modelValue: boolean
+  news?: NewsItem | null
+  userId?: number
+}>()
 
 const emit = defineEmits<{
-  "update:modelValue": [value: boolean];
-  save: [item: NewsItem];
-}>();
+  'update:modelValue': [value: boolean]
+  save: [item: NewsItem]
+}>()
 
-const title = ref(props.news?.title || "");
-const postInterval = ref(props.news?.post_interval || "1month");
-const userId = ref(props.userId);
+const title = ref(props.news?.title || '')
+const postInterval = ref(props.news?.post_interval || '1month')
+const userId = ref(props.userId)
 
 const options = [
-  { value: "1month", label: "1ヶ月" },
-  { value: "3months", label: "3ヶ月" },
-  { value: "6months", label: "6ヶ月" },
-  { value: "1year", label: "1年" },
-];
+  { value: '1month', label: '1ヶ月' },
+  { value: '3months', label: '3ヶ月' },
+  { value: '6months', label: '6ヶ月' },
+  { value: '1year', label: '1年' },
+]
 
-watch(
-  () => props.news,
-  (n) => {
-    title.value = n?.title || "";
-    postInterval.value = n?.post_interval || "1month";
-  },
-  { immediate: true },
-);
+watch(() => props.news, (n) => {
+  title.value = n?.title || ''
+  postInterval.value = n?.post_interval || '1month'
+}, { immediate: true })
 
-watch(
-  () => props.userId,
-  (id) => {
-    userId.value = id;
-  },
-);
+watch(() => props.userId, (id) => { userId.value = id })
 
-const close = () => emit("update:modelValue", false);
+const close = () => emit('update:modelValue', false)
 
 const save = () => {
-  emit("save", {
+  emit('save', {
     id: props.news?.id,
     title: title.value,
     post_interval: postInterval.value,
     user_id: userId.value,
-  });
-  close();
-};
+  })
+  close()
+}
 </script>
 
 <template>
   <Teleport to="body">
     <div v-if="modelValue" class="modal-overlay" @click.self="close">
       <div class="modal">
-        <h2>{{ news ? "ニュース更新" : "ニュース登録" }}</h2>
+        <h2>{{ news ? 'ニュース更新' : 'ニュース登録' }}</h2>
         <form @submit.prevent="save" class="form">
           <input v-model="title" type="text" placeholder="タイトル" required />
           <select v-model="postInterval">
@@ -97,68 +88,30 @@ const save = () => {
   max-width: 420px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
-h2 {
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
-}
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.form input,
-.form select {
+h2 { font-size: 1.25rem; margin-bottom: 1rem; }
+.form { display: flex; flex-direction: column; gap: 1rem; }
+.form input, .form select {
   padding: 0.75rem 1rem;
-  border: 1px solid #e94560;
-  border-radius: 2rem;
-  background: rgba(233, 69, 96, 0.1);
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
   color: #fff;
-  font-family: inherit;
-  transition: all 0.2s ease;
 }
-.form select {
-  appearance: none;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><path fill="%23fff" d="M1 1l5 5 5-5"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  padding-right: 2.5rem;
-}
-.form input:focus,
-.form select:focus {
-  outline: none;
-  background-color: rgba(233, 69, 96, 0.2);
-  box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
-}
-.actions {
-  display: flex;
-  gap: 0.75rem;
-  justify-content: flex-end;
-}
+.actions { display: flex; gap: 0.75rem; justify-content: flex-end; }
 .btn-cancel {
   padding: 0.5rem 1rem;
   background: transparent;
   color: #a0a0a0;
   border: 1px solid #444;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
   cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-.btn-cancel:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
 }
 .btn-save {
   padding: 0.5rem 1rem;
-  background: #4caf50;
+  background: #e94560;
   color: #fff;
   border: none;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
   cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-.btn-save:hover {
-  background: #45a049;
 }
 </style>

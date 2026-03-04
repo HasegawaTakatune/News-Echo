@@ -96,7 +96,7 @@ onMounted(async () => {
 <template>
   <div class="dashboard">
     <header class="header">
-      <h1>News Echo</h1>
+      <h1>あのニュースは今どうなった！？ - News Echo</h1>
       <div class="header-actions">
         <NuxtLink to="/settings" class="btn">設定</NuxtLink>
         <button class="btn btn-logout" @click="logout">ログアウト</button>
@@ -169,21 +169,13 @@ onMounted(async () => {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
   border: 1px solid #444;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
   text-decoration: none;
   cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-.btn:hover {
-  background: rgba(255, 255, 255, 0.15);
 }
 .btn-primary {
-  background: #4caf50;
-  border-color: #4caf50;
-}
-.btn-primary:hover {
-  background: #45a049;
+  background: #e94560;
+  border-color: #e94560;
 }
 .btn-logout {
   background: transparent;
@@ -218,26 +210,12 @@ onMounted(async () => {
   gap: 0.5rem;
 }
 .btn-sm {
-  padding: 0.5rem 0.75rem;
+  padding: 0.25rem 0.5rem;
   font-size: 0.85rem;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border: 1px solid #444;
-  border-radius: 2rem;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s ease;
 }
-.btn-sm:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-.btn-sm.btn-danger {
+.btn-danger {
   background: #c62828;
   border-color: #c62828;
-  color: #fff;
-}
-.btn-sm.btn-danger:hover {
-  background: #a01f26;
 }
 .loading {
   padding: 2rem;
@@ -273,31 +251,8 @@ onMounted(async () => {
   margin-top: 1rem;
 }
 .btn-cancel {
-  padding: 0.5rem 1rem;
   background: transparent;
   color: #a0a0a0;
   border: 1px solid #444;
-  border-radius: 2rem;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-.btn-cancel:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
-}
-.btn-danger {
-  padding: 0.5rem 1rem;
-  background: #c62828;
-  border-color: #c62828;
-  border-radius: 2rem;
-  color: #fff;
-  border: 1px solid #c62828;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-.btn-danger:hover {
-  background: #a01f26;
 }
 </style>

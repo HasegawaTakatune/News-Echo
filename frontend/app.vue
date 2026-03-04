@@ -1,18 +1,3 @@
-<script setup>
-definePageMeta({ title: "あのニュースは今どうなった！？" });
-
-useHead({
-  title: "あのニュースは今どうなった！？",
-  link: [
-    {
-      rel: "icon",
-      type: "image/svg+xml",
-      href: "/favicon.svg",
-    },
-  ],
-});
-</script>
-
 <template>
   <div>
     <NuxtRouteAnnouncer />
@@ -27,7 +12,7 @@ useHead({
   padding: 0;
 }
 body {
-  font-family: "Segoe UI", system-ui, sans-serif;
+  font-family: 'Segoe UI', system-ui, sans-serif;
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   min-height: 100vh;
   color: #e8e8e8;

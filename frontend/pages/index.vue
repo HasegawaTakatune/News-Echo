@@ -1,11 +1,11 @@
 <script setup lang="ts">
-definePageMeta({ layout: false })
-const token = useCookie('auth_token')
+definePageMeta({ layout: false });
+const token = useCookie("auth_token");
 
 if (token.value) {
-  navigateTo('/dashboard', { replace: true })
+  navigateTo("/dashboard", { replace: true });
 } else {
-  navigateTo('/login', { replace: true })
+  navigateTo("/login", { replace: true });
 }
 </script>
 
