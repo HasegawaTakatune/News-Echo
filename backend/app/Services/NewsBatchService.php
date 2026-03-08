@@ -12,10 +12,14 @@ use Illuminate\Support\Carbon;
  */
 class NewsBatchService
 {
+    /**
+     * @param class-string<\App\Models\News> $newsClass
+     */
     public function __construct(
         private AIService $aiService,
         private SocialService $socialService,
-        private SettingService $settingService
+        private SettingService $settingService,
+        private string $newsClass = News::class
     ) {
     }
 
@@ -49,7 +53,7 @@ class NewsBatchService
     public function processDueNews(): void
     {
         $now = Carbon::now();
-        $all = News::all();
+        $all = ($this->newsClass)::all();
 
         foreach ($all as $news) {
             if (!$this->isDue($news, $now)) {

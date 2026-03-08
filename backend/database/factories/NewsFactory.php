@@ -17,7 +17,6 @@ class NewsFactory extends Factory
             'user_id' => User::factory(),
             'title' => $this->faker->sentence,
             'post_interval' => $this->faker->randomElement($intervals),
-            'research_prompt' => $this->faker->paragraph,
         ];
     }
 }
