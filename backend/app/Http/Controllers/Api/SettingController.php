@@ -12,17 +12,16 @@ class SettingController extends Controller
 {
     public function __construct(
         private SettingService $settingService
-    ) {}
+    ) {
+    }
 
     public function index(Request $request): JsonResponse
     {
         $data = [
             'user' => $request->user()->only(['id', 'name', 'email', 'is_admin']),
+            'post_account' => $this->settingService->getPostAccount(),
+            'research_prompt' => $this->settingService->getResearchPrompt(),
         ];
-        if ($request->user()->is_admin) {
-            $data['post_account'] = $this->settingService->getPostAccount();
-            $data['research_prompt'] = $this->settingService->getResearchPrompt();
-        }
         return response()->json($data);
     }
 

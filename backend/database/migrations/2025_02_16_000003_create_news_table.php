@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('news', function (Blueprint $table) {
@@ -13,7 +12,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('title');
             $table->string('post_interval'); // 1month, 3months, 6months, 1year
-            $table->text('research_prompt')->nullable();
             $table->timestamps();
         });
     }

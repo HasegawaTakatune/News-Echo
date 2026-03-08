@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class News extends Model
 {
-    protected $fillable = ['user_id', 'title', 'post_interval', 'research_prompt'];
+    protected $fillable = ['user_id', 'title', 'post_interval'];
 
     public function user(): BelongsTo
     {

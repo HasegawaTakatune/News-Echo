@@ -16,6 +16,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\App\Services\SocialService::class, function ($app) {
             return new \App\Services\SocialService();
         });
+        $this->app->singleton(\App\Services\SettingService::class, function ($app) {
+            return new \App\Services\SettingService();
+        });
     }
 
     /**

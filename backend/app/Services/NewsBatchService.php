@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\News;
+use App\Services\SettingService;
 use Illuminate\Support\Carbon;
 
 /**
@@ -13,21 +14,26 @@ class NewsBatchService
 {
     public function __construct(
         private AIService $aiService,
-        private SocialService $socialService
+        private SocialService $socialService,
+        private SettingService $settingService
     ) {
     }
 
     /**
      * Create the text for a social post from a news record.
      *
+     * The prompt is managed via settings (global) rather than per-news.
+     *
      * @param News $news
      * @return string
      */
     public function generatePostText(News $news): string
     {
+        $prompt = $this->settingService->getResearchPrompt();
+
         return $this->aiService->createPostContent(
             $news->title,
-            $news->research_prompt
+            $prompt
         );
     }
 

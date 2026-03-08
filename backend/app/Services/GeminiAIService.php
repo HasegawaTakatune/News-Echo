@@ -22,7 +22,7 @@ class GeminiAIService implements AIService
     public function createPostContent(string $title, ?string $prompt = null): string
     {
         // build a prompt for Gemini
-        $fullPrompt = "Generate an X post summarizing the news titled '{title}'";
+        $fullPrompt = "Generate an X post summarizing the news titled '{$title}'";
         if ($prompt) {
             $fullPrompt .= " using the following research instructions: {$prompt}";
         }
