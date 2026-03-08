@@ -2,13 +2,24 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  devServer: { host: "0.0.0.0", port: 3000 },
+  devServer: {
+    host: "0.0.0.0",
+    port: 3000,
+    watch: {
+      usePolling: true,
+      interval: 100,
+    },
+  },
   vite: {
     server: {
       hmr: {
         host: "localhost",
         port: 3000,
         protocol: "ws",
+      },
+      watch: {
+        usePolling: true,
+        interval: 100,
       },
     },
   },

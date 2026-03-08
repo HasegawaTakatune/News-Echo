@@ -48,12 +48,12 @@ const handleLogin = async () => {
   padding: 2.5rem;
   border-radius: 1rem;
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 h1 {
   font-size: 1.75rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.75rem;
 }
 .subtitle {
   color: #a0a0a0;
