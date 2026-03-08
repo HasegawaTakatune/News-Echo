@@ -41,7 +41,7 @@
 
 ## セットアップ
 
-## 前提条件
+### 前提条件
 
 このプロジェクトを運用するために、以下のツールがインストールされていることを確認してください：
 
@@ -50,9 +50,7 @@
 - **Git**
 - **SSH キー** (オプション、bash での開発時に便利)
 
-## セットアップ手順
-
-### 2. 環境変数ファイルの作成
+### 1. 環境変数ファイルの作成
 
 `.env.example` をコピーして `.env` ファイルを作成します：
 
@@ -60,7 +58,7 @@
 cp .env.example .env
 ```
 
-### 3. Docker コンテナの起動
+### 2. Docker コンテナの起動
 
 ```bash
 docker-compose up -d
@@ -80,41 +78,45 @@ docker-compose ps
 - `db` (PostgreSQL)
 - `pgadmin` (pgAdmin)
 
-### 4. バックエンド（Laravel）のセットアップ
+---
 
-#### 4.1 コンテナ内で移行を実行
+### 3. バックエンド（Laravel）のセットアップ
+
+#### 3.1 コンテナ内で移行を実行
 
 ```bash
 docker-compose exec app php artisan migrate --seed
 ```
 
-#### 4.2 アプリケーションキーの生成（初回のみ）
+#### 3.2 アプリケーションキーの生成（初回のみ）
 
 ```bash
 docker-compose exec app php artisan key:generate
 ```
 
-#### 4.3 ストレージのパーミッション設定
+#### 3.3 ストレージのパーミッション設定
 
 ```bash
 docker-compose exec app chmod -R 775 storage bootstrap/cache
 ```
 
-### 5. フロントエンド（Nuxt）のセットアップ
+---
 
-#### 5.1 依存パッケージのインストール
+### 4. フロントエンド（Nuxt）のセットアップ
+
+#### 4.1 依存パッケージのインストール
 
 ```bash
 docker-compose exec ui npm install
 ```
 
-#### 6.2 手動実行でテスト
+#### 4.2 手動実行でテスト
 
 ```bash
 docker-compose exec app php artisan news:post
 ```
 
-#### 6.3 スケジューラの設定（本番環境）
+#### 4.3 スケジューラの設定（本番環境）
 
 `app/Console/Kernel.php` でコマンドをスケジュール登録し、  
 毎晩 0 時に実行するよう設定してください：
@@ -131,14 +133,14 @@ $schedule->command('news:post')->dailyAt('00:00');
 
 ---
 
-## 8. アクセス方法
+### 5. アクセス方法
 
-### Web アプリケーション
+#### Web アプリケーション
 
 - **フロントエンド（Nuxt）**: `http://localhost:3000`
 - **API**: `http://localhost/api` （Nginx 経由）
 
-### データベース管理
+#### データベース管理
 
 - **pgAdmin**: `http://localhost:8080`
   - メール: `admin@example.com`
@@ -147,9 +149,7 @@ $schedule->command('news:post')->dailyAt('00:00');
   - ユーザー名: `news_echo`
   - パスワード: `secret`
 
----
-
-## 9. SSH 接続（開発環境）
+### 6. SSH 接続（開発環境）
 
 #### バックエンド（PHP-FPM）コンテナへ接続
 
@@ -165,9 +165,9 @@ ssh -p 2223 root@localhost
 
 ---
 
-## 10. トラブルシューティング
+### 7. トラブルシューティング
 
-### ポートが既に使用されている
+#### ポートが既に使用されている
 
 別のプロセスがポート 80, 3000, 5432, 8080 などを使用している場合、  
 `docker-compose.yml` でポートマッピングを変更してください。
@@ -179,7 +179,7 @@ ports:
   - "8000:80" # ホスト側を 8000 に変更
 ```
 
-### パーミッションエラー
+#### パーミッションエラー
 
 Laravel のストレージディレクトリにアクセス権限がない場合：
 
@@ -187,7 +187,7 @@ Laravel のストレージディレクトリにアクセス権限がない場合
 docker-compose exec app chmod -R 777 storage bootstrap/cache
 ```
 
-### データベース接続エラー
+#### データベース接続エラー
 
 PostgreSQL が起動していることを確認：
 
@@ -197,7 +197,7 @@ docker-compose exec db psql -U news_echo -d news_echo -c "SELECT 1;"
 
 コマンドが成功すれば DB は正常です。
 
-### コンテナログの確認
+#### コンテナログの確認
 
 開発中に問題が発生した時：
 
@@ -212,9 +212,7 @@ docker-compose logs -f web    # Nginx
 docker-compose logs --tail=50 app
 ```
 
----
-
-## 12. 本番環境へのデプロイ
+### 8. 本番環境へのデプロイ
 
 本番環境では以下の点を必ず変更してください：
 
@@ -240,9 +238,7 @@ docker-compose logs --tail=50 app
 5. **バッチジョブのスケジューラ設定**
    - Cron または同等のジョブスケジューラを構成
 
----
-
-## 13. その他
+### 9. その他
 
 - **プロジェクト構成**: [プロジェクト構成.txt](プロジェクト構成.txt)
 - **ニュース投稿バッチについて**: `backend/app/Services/NewsBatchService.php` を参照
