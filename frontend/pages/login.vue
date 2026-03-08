@@ -24,8 +24,7 @@ const handleLogin = async () => {
 <template>
   <div class="auth-page">
     <div class="auth-card">
-      <h1>あのニュースは今どうなった！？ - News Echo</h1>
-      <p class="subtitle">あのニュースは今どうなった！？</p>
+      <h1>あのニュースは今どうなった！？</h1>
       <form @submit.prevent="handleLogin" class="auth-form">
         <div v-if="error" class="error">{{ error }}</div>
         <input v-model="login" type="text" placeholder="ユーザ名またはメールアドレス" required />

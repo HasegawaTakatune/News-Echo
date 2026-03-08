@@ -96,7 +96,7 @@ onMounted(async () => {
 <template>
   <div class="dashboard">
     <header class="header">
-      <h1>あのニュースは今どうなった！？ - News Echo</h1>
+      <h1>あのニュースは今どうなった！？</h1>
       <div class="header-actions">
         <NuxtLink to="/settings" class="btn">設定</NuxtLink>
         <button class="btn btn-logout" @click="logout">ログアウト</button>

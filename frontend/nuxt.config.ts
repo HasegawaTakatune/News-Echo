@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: "あのニュースは今どうなった！？ - News Echo",
+      title: "あのニュースは今どうなった！？",
       meta: [{ charset: "utf-8" }, { name: "viewport", content: "width=device-width, initial-scale=1" }],
     },
   },
